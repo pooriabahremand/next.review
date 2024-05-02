@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "es5", // Adjust target based on your project's requirements
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ], // Include necessary libraries
+    "allowJs": true, // Allow JavaScript files to be compiled
+    "skipLibCheck": true, // Skip lib check since we're using external definitions
+    "jsx": "preserve" // Specify JSX transform for React
+    ,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
