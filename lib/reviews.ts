@@ -1,45 +1,63 @@
-import { readdir, readFile } from "fs/promises";
-import matter from "gray-matter";
 import { marked } from "marked";
+import qs from "qs";
+import { DataInterface, Review } from "../interface/interfaces";
 
-export async function getFeaturedReview() {
-  const featuredReview = await getReviews();
-  return featuredReview[0];
+const CMS_URL = "http://localhost:1337";
+
+export async function getReview(slug: string): Promise<Review> {
+  const data = await fetchReviews({
+    filters: { slug: { $eq: slug } },
+    fields: ["slug", "title", "subtitle", "publishedAt", "body"],
+    populate: { image: { fields: ["url"] } },
+    pagination: { pageSize: 1, withCount: false },
+  });
+  const body = await marked(data[0].attributes.body);
+  return {
+    slug: data[0].attributes.slug,
+    title: data[0].attributes.title,
+    subtitle: data[0].attributes.subtitle,
+    date: data[0].attributes.publishedAt,
+    image: CMS_URL + data[0].attributes.image.data.attributes.url,
+    body,
+  };
 }
 
-export async function getReview(slug: string) {
-  const text = await readFile(`./content/reviews/${slug}.md`, "utf8");
-  const {
-    content,
-    data: { title, image, date },
-  } = matter(text);
-  const body = marked(content);
-
-  return { slug, body, title, image, date };
+export async function getSlugs(): Promise<string[]> {
+  const result = await fetchReviews({
+    fields: ["slug"],
+    sort: ["publishedAt:desc"],
+    pagination: { pageSize: 100 },
+  });
+  const finalResult = result.map((slug) => slug.attributes.slug);
+  console.log(finalResult);
+  return finalResult;
 }
 
-export async function getSlugs() {
-  const files = await readdir("./content/reviews");
-  return files
-    .filter((file) => file.endsWith(".md"))
-    .map((file) => file.slice(0, -".md".length));
-}
-
-export async function getReviews() {
-  const slugs = await getSlugs();
-  const reviews = [];
-  let review: {};
-  for (const slug of slugs) {
-    review = await getReview(slug);
-    reviews.push(review);
-  }
-
-  reviews.sort((a, b) => {
-    const dateA: any = new Date(a.date);
-    const dateB: any = new Date(b.date);
-
-    return dateB - dateA;
+export async function getReviews(pageSize): Promise<Review[]> {
+  const result = await fetchReviews({
+    fields: ["slug", "title", "subtitle", "publishedAt"],
+    populate: { image: { fields: ["url"] } },
+    sort: ["publishedAt:desc"],
+    pagination: { pageSize },
   });
 
-  return reviews;
+  return result.map(({ attributes }) => {
+    return {
+      slug: attributes.slug,
+      title: attributes.title,
+      subtitle: attributes.subtitle,
+      date: attributes.publishedAt.slice(0, "yyyy-mm-dd".length),
+      image: CMS_URL + attributes.image.data.attributes.url,
+    };
+  });
+}
+
+async function fetchReviews(parameters): Promise<DataInterface[]> {
+  const url =
+    `${CMS_URL}/api/reviews` +
+    "?" +
+    qs.stringify(parameters, { encodeValuesOnly: true });
+  const response = await fetch(url);
+  const result = await response.json();
+  return result.data;
 }
