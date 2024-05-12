@@ -3,8 +3,6 @@ import Heading from "../../components/heading";
 import { getReviews } from "../../lib/reviews";
 import Image from "next/image";
 
-export const revalidate = 30;
-
 export const metadata = {
   title: "Reviews",
 };

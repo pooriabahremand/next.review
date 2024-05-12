@@ -61,12 +61,12 @@ async function fetchReviews(parameters): Promise<DataInterface[]> {
     `${CMS_URL}/api/reviews` +
     "?" +
     qs.stringify(parameters, { encodeValuesOnly: true });
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    cache: "no-store",
+  });
   const result = await response.json();
   return result.data;
 }
-
-
 
 // const response = await fetch(url, {
 //   next: {
