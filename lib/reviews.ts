@@ -63,15 +63,9 @@ async function fetchReviews(parameters): Promise<DataInterface[]> {
     qs.stringify(parameters, { encodeValuesOnly: true });
   const response = await fetch(url, {
     next: {
-      revalidate: 30,
+      tags: [REVALIDATE_TAG],
     },
   });
   const result = await response.json();
   return result.data;
 }
-
-// const response = await fetch(url, {
-//   next: {
-//     tags: [REVALIDATE_TAG],
-//   },
-// });
