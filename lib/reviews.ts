@@ -2,15 +2,20 @@ import { marked } from "marked";
 import qs from "qs";
 import { DataInterface, Review } from "../interface/interfaces";
 
+export const REVALIDATE_TAG = "reviews";
 const CMS_URL = "http://localhost:1337";
 
 export async function getReview(slug: string): Promise<Review> {
+  console.log("slug of the demanded review", slug);
   const data = await fetchReviews({
     filters: { slug: { $eq: slug } },
     fields: ["slug", "title", "subtitle", "publishedAt", "body"],
     populate: { image: { fields: ["url"] } },
     pagination: { pageSize: 1, withCount: false },
   });
+  if (data.length === 0) {
+    return null;
+  }
   const body = await marked(data[0].attributes.body);
   return {
     slug: data[0].attributes.slug,
@@ -29,7 +34,6 @@ export async function getSlugs(): Promise<string[]> {
     pagination: { pageSize: 100 },
   });
   const finalResult = result.map((slug) => slug.attributes.slug);
-  console.log(finalResult);
   return finalResult;
 }
 
@@ -61,3 +65,11 @@ async function fetchReviews(parameters): Promise<DataInterface[]> {
   const result = await response.json();
   return result.data;
 }
+
+
+
+// const response = await fetch(url, {
+//   next: {
+//     tags: [REVALIDATE_TAG],
+//   },
+// });
