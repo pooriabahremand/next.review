@@ -62,7 +62,9 @@ async function fetchReviews(parameters): Promise<DataInterface[]> {
     "?" +
     qs.stringify(parameters, { encodeValuesOnly: true });
   const response = await fetch(url, {
-    cache: "no-store",
+    next: {
+      revalidate: 30,
+    },
   });
   const result = await response.json();
   return result.data;
