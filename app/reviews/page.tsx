@@ -2,6 +2,7 @@ import Link from "next/link";
 import Heading from "../../components/heading";
 import { getReviews } from "../../lib/reviews";
 import Image from "next/image";
+import PaginationBar from "../../components/paginationBar";
 
 export const metadata = {
   title: "Reviews",
@@ -19,18 +20,11 @@ export default async function ReviewsPage({ searchParams: { page } }) {
   return (
     <>
       <Heading>Reviews</Heading>
-      <div className="flex gap2 pb-3">
-        <Link
-          href={`/reviews?page=${pageNumber > 1 ? pageNumber - 1 : pageNumber}`}
-        >
-          &lt;
-        </Link>
-        <span>
-          {" "}
-          page {pageNumber} of {meta.pageCount}{" "}
-        </span>
-        <Link href={`/reviews?page=${pageNumber + 1}`}>&gt;</Link>
-      </div>
+      <PaginationBar
+        href="/reviews"
+        pageNumber={pageNumber}
+        pageCount={meta.pageCount}
+      />
       <ul className="flex flex-row flex-wrap gap-3">
         {result.map((review, index) => {
           return (
