@@ -7,15 +7,26 @@ export const metadata = {
   title: "Reviews",
 };
 
-export default async function ReviewsPage() {
-  const reviews = await getReviews(6);
-  console.log(
-    "[ReviewsPage] rendering: ",
-    reviews.map((review) => review.slug).join(", ")
-  );
+let pageNumber: number;
+export default async function ReviewsPage({ searchParams: { page } }) {
+  if (Number(page) > 0) {
+    pageNumber = Number(page);
+  } else {
+    pageNumber = 1;
+  }
+  const reviews = await getReviews(pageNumber, 6);
   return (
     <>
       <Heading>Reviews</Heading>
+      <div className="flex gap2 pb-3">
+        <Link
+          href={`/reviews?page=${pageNumber > 1 ? pageNumber - 1 : pageNumber}`}
+        >
+          &lt;
+        </Link>
+        <span> page {pageNumber} </span>
+        <Link href={`/reviews?page=${pageNumber + 1}`}>&gt;</Link>
+      </div>
       <ul className="flex flex-row flex-wrap gap-3">
         {reviews.map((review, index) => {
           return (
