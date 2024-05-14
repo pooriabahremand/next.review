@@ -8,13 +8,14 @@ export const metadata = {
 };
 
 let pageNumber: number;
+const PAGE_SIZE = 6;
 export default async function ReviewsPage({ searchParams: { page } }) {
   if (Number(page) > 0) {
     pageNumber = Number(page);
   } else {
     pageNumber = 1;
   }
-  const reviews = await getReviews(pageNumber, 6);
+  const { result, meta } = await getReviews(pageNumber, PAGE_SIZE);
   return (
     <>
       <Heading>Reviews</Heading>
@@ -24,11 +25,14 @@ export default async function ReviewsPage({ searchParams: { page } }) {
         >
           &lt;
         </Link>
-        <span> page {pageNumber} </span>
+        <span>
+          {" "}
+          page {pageNumber} of {meta.pageCount}{" "}
+        </span>
         <Link href={`/reviews?page=${pageNumber + 1}`}>&gt;</Link>
       </div>
       <ul className="flex flex-row flex-wrap gap-3">
-        {reviews.map((review, index) => {
+        {result.map((review, index) => {
           return (
             <li
               key={review.slug}

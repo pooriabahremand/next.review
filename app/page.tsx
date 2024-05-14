@@ -4,18 +4,14 @@ import { getReviews } from "../lib/reviews";
 import Image from "next/image";
 
 export default async function HomePage() {
-  const reviews = await getReviews(1, 3);
-  console.log(
-    "[HomePage] rendering: ",
-    reviews.map((review) => review.slug).join(", ")
-  );
+  const { result } = await getReviews(1, 3);
 
   return (
     <>
       <Heading>Indie Gamer</Heading>
       <p className="pb-3">Only the best indie games, reviewed for you.</p>
       <ul className="flex flex-col gap-3">
-        {reviews.map((review, index) => {
+        {result.map((review, index) => {
           return (
             <li
               key={review.slug}
