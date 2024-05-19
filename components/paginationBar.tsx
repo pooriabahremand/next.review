@@ -7,7 +7,7 @@ export default function PaginationBar({
   pageNumber,
   pageCount,
 }): ReactNode {
-  console.log(pageNumber, pageCount);
+  // console.log(pageNumber, pageCount);
 
   return (
     <div className="flex gap-2 pb-3">

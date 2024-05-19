@@ -10,7 +10,7 @@ export const REVALIDATE_TAG = "reviews";
 const CMS_URL = "http://localhost:1337";
 
 export async function getReview(slug: string): Promise<Review> {
-  console.log("slug of the demanded review", slug);
+  // console.log("slug of the demanded review", slug);
   const { data } = await fetchReviews({
     filters: { slug: { $eq: slug } },
     fields: ["slug", "title", "subtitle", "publishedAt", "body"],
@@ -78,6 +78,6 @@ async function fetchReviews(parameters): Promise<FetchReviewsInterface> {
     },
   });
   const result = await response.json();
-  console.log(result);
+  // console.log(result);
   return result;
 }
