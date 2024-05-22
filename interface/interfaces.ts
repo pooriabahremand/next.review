@@ -41,3 +41,8 @@ export interface FetchReviewsInterface {
   data: DataInterface[];
   meta: MetaInterfaceAttributes;
 }
+
+export interface SearchableReviewsInterface {
+  title:string;
+  slug:string
+}

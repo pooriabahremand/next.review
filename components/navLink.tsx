@@ -5,7 +5,6 @@ import { ReactNode } from "react";
 
 export default function NavLink({ href, className = "", children }): ReactNode {
   const pathName = usePathname();
-  console.log(pathName);
   if (pathName === href) {
     return (
       <span

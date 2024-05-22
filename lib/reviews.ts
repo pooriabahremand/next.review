@@ -1,7 +1,7 @@
 import { marked } from "marked";
 import qs from "qs";
 import {
-  DataInterface,
+  SearchableReviewsInterface,
   FetchReviewsInterface,
   Review,
 } from "../interface/interfaces";
@@ -38,6 +38,24 @@ export async function getSlugs(): Promise<string[]> {
     pagination: { pageSize: 100 },
   });
   const finalResult = data.map((slug) => slug.attributes.slug);
+  return finalResult;
+}
+
+export async function getSearchableReviews(): Promise<
+  SearchableReviewsInterface[]
+> {
+  const { data } = await fetchReviews({
+    fields: ["title", "slug"],
+    sort: ["publishedAt:desc"],
+    pagination: { pageSize: 100 },
+  });
+  const finalResult = data.map((review) => {
+    return {
+      slug: review.attributes.slug,
+      title: review.attributes.title,
+    };
+  });
+  console.log(finalResult);
   return finalResult;
 }
 
