@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Heading from "../../components/heading";
-import { getReviews, getSearchableReviews } from "../../lib/reviews";
+import { getReviews } from "../../lib/reviews";
 import Image from "next/image";
 import PaginationBar from "../../components/paginationBar";
 import SearchBox from "../../components/searchBox";
@@ -12,7 +12,6 @@ export const metadata = {
 let pageNumber: number;
 const PAGE_SIZE = 6;
 export default async function ReviewsPage({ searchParams: { page } }) {
-  const reviews = await getSearchableReviews();
   if (Number(page) > 0) {
     pageNumber = Number(page);
   } else {
@@ -28,7 +27,7 @@ export default async function ReviewsPage({ searchParams: { page } }) {
           pageNumber={pageNumber}
           pageCount={meta.pageCount}
         />
-        <SearchBox reviews={reviews} />
+        <SearchBox />
       </div>
       <ul className="flex flex-row flex-wrap gap-3">
         {result.map((review, index) => {

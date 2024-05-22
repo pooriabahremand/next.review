@@ -5,6 +5,7 @@ import {
   FetchReviewsInterface,
   Review,
 } from "../interface/interfaces";
+import { title } from "process";
 
 export const REVALIDATE_TAG = "reviews";
 const CMS_URL = "http://localhost:1337";
@@ -41,13 +42,14 @@ export async function getSlugs(): Promise<string[]> {
   return finalResult;
 }
 
-export async function getSearchableReviews(): Promise<
-  SearchableReviewsInterface[]
-> {
+export async function fetchSearchableReviews(
+  query
+): Promise<SearchableReviewsInterface[]> {
   const { data } = await fetchReviews({
+    filters: { title: { $containsi: query } },
     fields: ["title", "slug"],
-    sort: ["publishedAt:desc"],
-    pagination: { pageSize: 100 },
+    sort: ["title"],
+    pagination: { pageSize: 5 },
   });
   const finalResult = data.map((review) => {
     return {
@@ -55,7 +57,6 @@ export async function getSearchableReviews(): Promise<
       title: review.attributes.title,
     };
   });
-  console.log(finalResult);
   return finalResult;
 }
 
