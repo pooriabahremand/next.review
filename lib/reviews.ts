@@ -1,3 +1,5 @@
+import "server-only";
+
 import { marked } from "marked";
 import qs from "qs";
 import {
@@ -5,7 +7,6 @@ import {
   FetchReviewsInterface,
   Review,
 } from "../interface/interfaces";
-import { title } from "process";
 
 export const REVALIDATE_TAG = "reviews";
 const CMS_URL = "http://localhost:1337";

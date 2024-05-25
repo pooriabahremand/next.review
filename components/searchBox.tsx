@@ -1,5 +1,6 @@
 "use client";
 import { ReactNode, useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 import {
   Combobox,
   ComboboxInput,
@@ -7,21 +8,26 @@ import {
   ComboboxOptions,
 } from "@headlessui/react";
 import { useRouter } from "next/navigation";
-import { fetchSearchableReviews } from "../lib/reviews";
 
 export default function SearchBox(): ReactNode {
   const [query, setQuery] = useState("");
   const [reviews, setReviews] = useState([]);
+  const [debouncedQuery] = useDebounce(query, 400);
   useEffect(() => {
-    if (query.length > 1) {
+    if (debouncedQuery.length > 1) {
+      const controller = new AbortController();
       (async () => {
-        const reviews = await fetchSearchableReviews(query);
+        const url = `/api/search?query=${encodeURIComponent(debouncedQuery)}`;
+        const response = await fetch(url, { signal: controller.signal });
+        const reviews = await response.json();
+        console.log(reviews);
         setReviews(reviews);
       })();
+      return () => controller.abort();
     } else {
       setReviews([]);
     }
-  }, [query]);
+  }, [debouncedQuery]);
   const router = useRouter();
 
   const onChangeHandler = (review) => {
