@@ -43,6 +43,12 @@ export interface FetchReviewsInterface {
 }
 
 export interface SearchableReviewsInterface {
-  title:string;
-  slug:string
+  title: string;
+  slug: string;
+}
+
+export interface CommentInterface {
+  id: string;
+  user: string;
+  message: string;
 }

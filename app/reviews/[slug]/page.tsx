@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Heading from "../../../components/heading";
 import ShareLinkBtn from "../../../components/shareLinkBtn";
+import CommentList from "../../../components/commentList";
+import CommentForm from "../../../components/commentForm";
 import { getReview, getSlugs } from "../../../lib/reviews";
 import { notFound } from "next/navigation";
+import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 
 export async function generateMetadata({ params: { slug } }) {
   const review = await getReview(slug);
@@ -45,6 +48,14 @@ export default async function ReviewPage({ params: { slug } }) {
         dangerouslySetInnerHTML={{ __html: review.body }}
         className="max-w-screen-sm prose prose-slate"
       />
+      <section className="border-dashed border-t max-w-screen-sm mt-3 py-3">
+        <h2 className="font-bold flex gap-2 items-center text-xl">
+          <ChatBubbleBottomCenterTextIcon className="h-6 w-6" />
+          Comments
+        </h2>
+        <CommentForm title={review.title} />
+        <CommentList />
+      </section>
     </>
   );
 }
