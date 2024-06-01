@@ -6,7 +6,6 @@ module.exports = {
 
 function toRemotePattern(urlString) {
   const url = new URL(urlString);
-  console.log(url);
   return {
     protocol: url.protocol.replace(":", ""),
     hostname: url.hostname,

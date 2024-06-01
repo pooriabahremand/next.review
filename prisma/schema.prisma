@@ -9,3 +9,12 @@ datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }
+
+
+model Comment {
+  id        String @id @default(uuid())
+  slug      String
+  user      String
+  message   String
+  postedAt  DateTime @default(now())
+}

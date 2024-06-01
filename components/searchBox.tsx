@@ -20,7 +20,7 @@ export default function SearchBox(): ReactNode {
         const url = `/api/search?query=${encodeURIComponent(debouncedQuery)}`;
         const response = await fetch(url, { signal: controller.signal });
         const reviews = await response.json();
-        console.log(reviews);
+        // console.log(reviews);
         setReviews(reviews);
       })();
       return () => controller.abort();

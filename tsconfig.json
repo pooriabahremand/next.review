@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "script/test-db.mjs"  ],
   "exclude": [
     "node_modules"
   ]
