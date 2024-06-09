@@ -15,6 +15,8 @@ export async function createComment({
 }
 
 export async function Comments(slug: string) {
-  // console.log(slug);
-  return await db.comment.findMany({ where: { slug } });
+  return await db.comment.findMany({
+    where: { slug },
+    orderBy: { postedAt: "desc" },
+  });
 }
