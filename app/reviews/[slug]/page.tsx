@@ -6,6 +6,8 @@ import CommentForm from "../../../components/commentForm";
 import { getReview, getSlugs } from "../../../lib/reviews";
 import { notFound } from "next/navigation";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
+import { Suspense } from "react";
+import CommentListSkeleton from "../../../components/CommentListSkeleton";
 
 export async function generateMetadata({ params: { slug } }) {
   const review = await getReview(slug);
@@ -28,7 +30,6 @@ export default async function ReviewPage({ params: { slug } }) {
   if (!review) {
     notFound();
   }
-  // console.log("[ReviewPage] rendering: ", slug);
   return (
     <>
       <Heading>{review.title}</Heading>
@@ -54,7 +55,9 @@ export default async function ReviewPage({ params: { slug } }) {
           Comments
         </h2>
         <CommentForm slug={slug} title={review.title} />
-        <CommentList slug={slug} />
+        <Suspense fallback={<CommentListSkeleton />}>
+          <CommentList slug={slug} />
+        </Suspense>
       </section>
     </>
   );
