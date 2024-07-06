@@ -52,3 +52,8 @@ export interface CommentInterface {
   user: string;
   message: string;
 }
+
+export interface CommentFormProps {
+  title: string;
+  slug: string;
+}
