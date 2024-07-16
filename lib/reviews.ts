@@ -102,7 +102,6 @@ export async function getReviews(pageNumber: number, pageSize: number) {
   return { result, meta: { pageCount: meta.pagination.pageCount } };
 }
 
-
 /**
  * Fetches reviews from the Strapi API based on provided parameters.
  *
@@ -145,4 +144,3 @@ async function fetchReviews(
     throw error;
   }
 }
-

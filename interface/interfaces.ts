@@ -106,3 +106,7 @@ export interface FetchReviewsReturnInterface {
   data: FetchReviewsDataInterface[];
   meta: FetchReviewsMetaDataInterface;
 }
+
+export interface ReviewsPageProps {
+  searchParams: { page: string };
+}

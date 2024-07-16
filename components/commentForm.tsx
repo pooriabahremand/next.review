@@ -41,7 +41,11 @@ export default function CommentForm({ slug, title }: CommentFormProps) {
           required
         />
       </div>
-      {state.error ? <p className="text-red-700">{state.error}</p> : <p></p>}
+      {state.error ? (
+        <p className="text-red-700">{state.error}</p>
+      ) : (
+        <span></span>
+      )}
       {state.loading === true ? (
         <button
           type="submit"

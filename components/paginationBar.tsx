@@ -7,8 +7,6 @@ export default function PaginationBar({
   pageNumber,
   pageCount,
 }): ReactNode {
-  // console.log(pageNumber, pageCount);
-
   return (
     <div className="flex gap-2 pb-3">
       {/* ********** PREVIEWS LINK ********** */}
@@ -32,7 +30,7 @@ export default function PaginationBar({
       )}
       {/* ********** PAGINATION TEXT ********** */}
       <span>
-        {" "}
+        {/* {console.log(pageNumber)} */}
         page {pageNumber} of {pageCount}{" "}
       </span>
       {/* ********** NEXT LINK ********** */}

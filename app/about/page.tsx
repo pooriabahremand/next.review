@@ -1,14 +1,17 @@
+import { ReactNode } from "react";
 import Heading from "../../components/heading";
 
+// Metadata for the About page
 export const metadata = {
   title: "About",
 };
 
-export default function AboutPage() {
+// The main component for the About page
+export default function AboutPage() : ReactNode {
   return (
     <>
       <Heading>About</Heading>
-      <p>A website created to learn next.js</p>
+      <p>A website created to learn Next.js</p>
     </>
   );
 }
